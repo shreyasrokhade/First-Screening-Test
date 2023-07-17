@@ -1,32 +1,39 @@
 import java.util.*;
 
 public class CountMultiples {
-    public static Map<Integer, Integer> countMultiples(List<Integer> numbers, List<Integer> factors) {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the numbers (separated by commas): ");
+        String input = scanner.nextLine();
+        List<Integer> numbers = parseNumbers(input);
+
+        Map<Integer, Integer> countMap = countMultiples(numbers);
+
+        System.out.println(countMap);
+    }
+
+    public static List<Integer> parseNumbers(String input) {
+        List<Integer> numbers = new ArrayList<>();
+        String[] parts = input.split(",");
+        for (String part : parts) {
+            numbers.add(Integer.parseInt(part.trim()));
+        }
+        return numbers;
+    }
+
+    public static Map<Integer, Integer> countMultiples(List<Integer> numbers) {
         Map<Integer, Integer> countMap = new HashMap<>();
 
-        // Initialize the count map with factors and initial counts set to zero
-        for (int factor : factors) {
-            countMap.put(factor, 0);
-        }
-
-        // Iterate through each number and count multiples for each factor
-        for (int number : numbers) {
-            for (int factor : factors) {
+        for (int factor = 1; factor <= 9; factor++) {
+            int count = 0;
+            for (int number : numbers) {
                 if (number % factor == 0) {
-                    int count = countMap.get(factor);
-                    countMap.put(factor, count + 1);
+                    count++;
                 }
             }
+            countMap.put(factor, count);
         }
 
         return countMap;
-    }
-
-    public static void main(String[] args) {
-        List<Integer> numbers = Arrays.asList(1, 2, 8, 9, 12, 46, 76, 82, 15, 20, 30);
-        List<Integer> factors = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
-
-        Map<Integer, Integer> result = countMultiples(numbers, factors);
-        System.out.println(result);
     }
 }
